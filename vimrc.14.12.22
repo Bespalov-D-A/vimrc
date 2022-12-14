@@ -1,0 +1,128 @@
+set termguicolors
+set background=dark
+colorscheme enigma
+filetype plugin indent on "Включает определение типа файла, загрузку...
+"... соответствующих ему плагинов и файлов отступов
+set encoding=utf-8 "Ставит кодировку UTF-8
+set nocompatible "Отключает обратную совместимость с Vi
+syntax enable "Включает подсветку синтаксиса
+syntax on
+set t_Co=256
+let g:ycm_auto_trigger = 1
+let mapleader = ","
+"let g:neoformat_try_node_exe = 1
+let g:prettier#config#config_precedence = 'prefer-file'
+"let g:prettier#autoformat_config_present = 1
+
+"let g:prettier#autoformat = 0
+"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>do <Plug>(coc-codeaction)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
+
+let g:netrw_winsize = 75
+
+set guifont=Fira\ Code\ Regular\ Nerd\ Font\ Complete:h16
+
+let g:solarized_termcolors=256
+let g:neoformat_try_node_exe = 1
+let g:solarized_termtrans=1
+
+
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
+
+
+call plug#begin('~/.vim/bundle') "Начать искать плагины в этой директории
+Plug 'altercation/vim-colors-solarized'
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'mattn/emmet-vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = [
+  \ 'coc-tsserver'
+  \ ]
+
+Plug 'flazz/vim-colorschemes'
+Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'scrooloose/nerdcommenter'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+"Plug 'valloric/youcompleteme'
+Plug 'morhetz/gruvbox'
+"Plug 'sbdchd/neoformat'
+Plug 'ervandew/supertab'
+Plug 'ErichDonGubler/vim-sublime-monokai'
+Plug 'prettier/vim-prettier'
+Plug 'morhetz/gruvbox'
+Plug 'sheerun/vim-polyglot'
+Plug 'vim-airline/vim-airline'
+Plug 'ryanoasis/vim-devicons'
+Plug 'powerline/powerline-fonts'
+Plug 'scrooloose/nerdtree'
+call plug#end() "Перестать это делать
+
+
+inoremap { {}<Left>
+inoremap ( ()<Left>
+inoremap < <><Left>
+inoremap [ []<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+
+let g:prettier#config#tab_width = '2'
+
+map <F3> :NERDTreeMirror<CR>
+map <F3> :NERDTreeToggle<CR>
+
+"let g:airline_powerline_fonts = 1 "Включить поддержку Powerline шрифтов
+let g:airline#extensions#keymap#enabled = 0 "Не показывать текущий маппинг
+let g:airline_section_z = "\ue0a1:%l/%L Col:%c" "Кастомная графа положения курсора
+let g:Powerline_symbols='unicode' "Поддержка unicode
+let g:airline#extensions#xkblayout#enabled = 0 "Про это позже расскажу
+
+set guioptions=1"Отключаем панели прокрутки в GUI
+set showtabline=1 "Отключаем панель табов (окошки FTW)
+
+"Сам по себе number показывает справа номера строк
+"relativenumber - нумерацию строк относительно положения курсора
+set number "А это гибридный вариант. Протестируйте все
+"hi CursorLine     guibg=#04346C gui=none
+"hi LineNr         ctermfg=DarkMagenta guifg=#006f8b guibg=#002b36 
+
+"wrap заставляет переносить строчки без их разделения
+"Соответсвенно nowrap рендерит строчки за границами экрана
+"set wrap linebreak nolist "Данная вариация работает как wrap...
+"... но переносит строчки не посимвольно, а по словам
+
+"Предыдущий способ известен как soft wrapping
+"При желании вы можете заставить Вим насильно разделять...
+"... строчки в самом тексте вот так:
+set textwidth=80 "Где 80 стоит заменить на нужную вам длину строки
+
+set cursorline "А так мы можем подсвечивать строку с курсором
+
+"Если вы используете обычный терминальный Вим, а не NeoVim, то...
+"... для изменения курсора в разных режимах используйте это:
+set ttimeoutlen=10 "Понижаем задержку ввода escape последовательностей
+let &t_SI.="\e[5 q" "SI = режим вставки
+let &t_SR.="\e[3 q" "SR = режим замены
+let &t_EI.="\e[1 q" "EI = нормальный режим
+"Где 1 - это мигающий прямоугольник
+"2 - обычный прямоугольник
+"3 - мигающее подчёркивание
+"4 - просто подчёркивание
+"5 - мигающая вертикальная черта
+
